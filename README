@@ -1,0 +1,40 @@
+LinkToRemoteWithPrompt
+======================
+
+Inspired by Russ Sherman's work on link_to_with_prompt.
+(Russ Sherman "code-ronin" - original author of link_to_with_prompt [http://acts-as-coder.blogspot.com/])
+
+link_to_remote now accepts a :prompt option
+
+canceled prompt = no AJAX call
+'ok' with blank text field = no AJAX call
+'ok' with something in text field = AJAX call, along with your_var_name assigned whatever was typed in the text field.
+* text field is named prompt_reply, but the value will show up as params[:your_var_name]
+
+View Example
+============
+
+<%= link_to_remote "link_name", { :url  => { :controller => 'your_controller', 
+                                             :action => 'your_ajax_action', 
+                                             :id => whatever_object_here,
+                                             :some_other_param => "whatever" }, 
+                                  :method => :put,
+                                  :prompt => "Message to user here with #{some_instance_variable_if_you_please_in_here}\nWith another line of text here.",
+                                  :with => "'your_var_name=' + (prompt_reply)",
+                                  :html =>  { :class => "some_class_here" }} %>
+
+
+
+
+Don't forget to add the AJAX action to your restful routes:
+======================================================
+map resources :plural_model_name, :member => { :your_ajax_action => :put }
+
+
+
+
+
+
+
+
+Copyright (c) 2009 [Randy Walker], released under the MIT license
